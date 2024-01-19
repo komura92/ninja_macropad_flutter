@@ -1,12 +1,11 @@
+import 'package:flutter_ninja_macropad/config/server_db.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class SseClient {
-  static const String SERVER_URL = 'http://<server-hostname>:2020/sse/notifications?deviceId=1';
-
   static Future<http.Response> callAction(String action) {
     return http.post(
-      Uri.parse(SERVER_URL),
+      Uri.parse(ServerDB.getSubscriptionUrl()!),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

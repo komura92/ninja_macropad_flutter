@@ -30,7 +30,7 @@ class TabContent extends StatelessWidget {
                   child: Ink(
                     decoration: BoxDecoration(
                         color: Colors.grey.shade800,
-                        boxShadow: [
+                        boxShadow: const [
                           BoxShadow(
                               color: Colors.black,
                               spreadRadius: 1,

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_ninja_macropad/widgets/menu/bottom_menu.dart';
-import 'package:flutter_ninja_macropad/widgets/tab_content.dart';
 
-import 'config/config.dart';
+import 'package:flutter_ninja_macropad/widgets/home_page.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-void main() {
+void main() async {
+  await Hive.initFlutter();
+  await Hive.openBox('app_settings');
   runApp(const MyApp());
 }
 
@@ -16,21 +17,11 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  int selectedIndex = 0;
-
-  void updateSelectedIndex(dynamic index) {
-    setState(() {
-      selectedIndex = index;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        home: Scaffold(
-          bottomNavigationBar: BottomMenuWidget(onTabChange: updateSelectedIndex),
-          body: TabContent(actions: Config.getMenuConfig()[selectedIndex].actionPanels),
-        )
+    return const MaterialApp(
+        home: HomePage()
     );
   }
 }

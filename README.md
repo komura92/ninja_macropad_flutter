@@ -29,7 +29,7 @@ two things per year, depending on my time availability.
 
 There's a shortly described list:
 - changing active workspace on PC triggers changing active menu option in mobile app [MP-AM-F-01],
-- dynamic configuration for connection data [MP-AM-F-02],
+- ~~dynamic configuration for connection data [MP-AM-F-02]~~,
 - dynamic configuration for panels content [MP-AM-F-03],
 - dynamic configuration for menu options [MP-AM-F-04],
 - dropdown for choosing which device to control [MP-AM-F-05],
