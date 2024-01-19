@@ -12,7 +12,7 @@ to increase productivity level with me.
 
 ## System showcase
 
-![Examples of automations](https://github.com/komura92/macropad-android-mobile/images/macropad-mobile-gif.gif)
+![Examples of automations](https://github.com/komura92/macropad-android-mobile/blob/master/images/macropad-mobile-gif.gif)
 
 ## Configuration
 
