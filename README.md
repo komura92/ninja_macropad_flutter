@@ -1,4 +1,4 @@
-# Macropad Android app
+# Macropad Flutter app
 
 This app is the UI part of my open source project called "Ninja-Macropad".
 
@@ -12,14 +12,14 @@ to increase productivity level with me.
 
 ## System showcase
 
-![Examples of automations](/images/macropad-mobile-gif.gif)
+![Examples of automations](https://github.com/komura92/macropad-android-mobile/images/macropad-mobile-gif.gif)
 
 ## Configuration
 
 If you want to make your own application functions you have to edit this code.
 Actually there is no automatic config in this project.
 Don't forget to set your server address in
-[ServerConfig.java](/app/src/main/java/com/itninja/macropad/app/api/config/ServerConfig.java).
+[sse_client.dart](lib/client/sse_client.dart).
 
 
 ## Roadmap

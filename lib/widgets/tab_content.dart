@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_ninja_macropad/client/sse_driver.dart';
+import 'package:flutter_ninja_macropad/client/sse_client.dart';
 import 'package:flutter_ninja_macropad/config/model/action_panel.dart';
 
 class TabContent extends StatelessWidget {
