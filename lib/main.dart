@@ -6,6 +6,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 void main() async {
   await Hive.initFlutter();
   await Hive.openBox('app_settings');
+  await Hive.openBox('menu_config_actions');
   runApp(const MyApp());
 }
 

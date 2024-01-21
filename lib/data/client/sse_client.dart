@@ -1,4 +1,4 @@
-import 'package:flutter_ninja_macropad/config/server_db.dart';
+import 'package:flutter_ninja_macropad/data/db/server_db.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 

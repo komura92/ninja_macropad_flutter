@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_ninja_macropad/config/server_db.dart';
+import 'package:flutter_ninja_macropad/data/db/server_db.dart';
 
 import 'package:flutter_ninja_macropad/widgets/menu/bottom_menu.dart';
 import 'package:flutter_ninja_macropad/widgets/tabs/tab_content.dart';
@@ -29,8 +29,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomMenuWidget(onTabChange: updateSelectedIndex),
-      body: TabContent(
-          actions: Config.getMenuConfig()[selectedIndex].actionPanels),
+      body: TabContent.fromMenuIdentifier(
+        menuIdentifier: Config.getMenuConfig()[selectedIndex].menuIdentifier),
       floatingActionButton: FloatingActionButton(
         onPressed: showSettingsPopup,
         backgroundColor: Colors.blue,
@@ -40,7 +40,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   void showSettingsPopup() {
-    // flutter defined function
     showDialog(
       context: context,
       builder: (context) {

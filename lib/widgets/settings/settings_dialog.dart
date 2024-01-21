@@ -17,6 +17,7 @@ class SettingsDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      title: Text('Settings', style: TextStyle(color: Colors.grey.shade300,),),
       backgroundColor: Colors.blue.shade800,
       content: Container(
         height: 120,
@@ -27,9 +28,12 @@ class SettingsDialog extends StatelessWidget {
               controller: controller,
               style: TextStyle(color: Colors.grey.shade300),
               decoration: InputDecoration(
-                border: OutlineInputBorder(),
                 hintStyle: TextStyle(color: Colors.grey.shade300),
                 hintText: "Server subscribe URL",
+                suffixIcon: IconButton(
+                  onPressed: controller.clear,
+                  icon: Icon(Icons.clear, color: Colors.grey.shade300,),
+                ),
               ),
             ),
             Row(

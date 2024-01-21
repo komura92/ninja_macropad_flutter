@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_ninja_macropad/config/config.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+
+import 'package:flutter_ninja_macropad/config/config.dart';
 
 class BottomMenuWidget extends StatelessWidget {
   final void Function(dynamic index) onTabChange;

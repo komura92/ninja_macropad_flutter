@@ -1,9 +1,9 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class ActionPanel {
-  final String actionName;
-  final String actionIcon;
-  final String actionExecutor;
+  String actionName;
+  Widget actionIcon;
+  String actionExecutor;
 
   ActionPanel(
       {required this.actionName,
