@@ -35,5 +35,5 @@ There's a shortly described list:
 - dropdown for choosing which device to control [MP-AM-F-05],
 - ~~menu entry for graphic panel (OBS etc.) [MP-AM-F-06] (canceled)~~,
 - ~~migration to flutter [MP-AM-F-07]~~,
-- drag and drop to reorganize tab content [MP-AM-F-08],
+- ~~drag and drop to reorganize tab content [MP-AM-F-08]~~,
 - image picker [MP-AM-F-09].

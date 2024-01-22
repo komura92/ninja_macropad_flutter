@@ -61,20 +61,27 @@ class MenuConfigDB {
     for (var action in savedActions) {
       actions.add(ActionPanel(
           actionName: action['actionName'] as String,
-          actionIcon: action['actionIconType'] == 'ICON'
-              ? Icon(
-                  IconData(action['actionIcon'] as int,
-                      fontFamily: 'MaterialIcons'),
-                  size: 80,
-                  color: Colors.grey.shade500,
-                )
-              : Image.asset(
-                  action['actionIcon'] as String,
-                  height: 80,
-                ),
+          actionIcon: getIconForAction(action),
           actionExecutor: action['actionExecutor'] as String));
     }
     return actions;
+  }
+
+  static Widget? getIconForAction(action) {
+    if (action['actionIcon'] == null) {
+      return null;
+    }
+    return action['actionIconType'] == 'ICON'
+            ? Icon(
+                IconData(action['actionIcon'] as int,
+                    fontFamily: 'MaterialIcons'),
+                size: 80,
+                color: Colors.grey.shade500,
+              )
+            : Image.asset(
+                action['actionIcon'] as String,
+                height: 80,
+              );
   }
 
   static List<Map<String, dynamic>> _getAsListOfMaps(
@@ -84,13 +91,20 @@ class MenuConfigDB {
       mapped.add({
         'actionName': action.actionName,
         'actionIconType': action.actionIcon is Icon ? 'ICON' : 'IMAGE',
-        'actionIcon': action.actionIcon is Icon
-            ? (action.actionIcon as Icon).icon?.codePoint
-            : ((action.actionIcon as Image).image as AssetImage).assetName,
+        'actionIcon': getActionIconForSave(action),
         'actionExecutor': action.actionExecutor
       });
     }
     return mapped;
+  }
+
+  static Object? getActionIconForSave(ActionPanel action) {
+    if (action.actionIcon == null) {
+      return null;
+    }
+    return action.actionIcon is Icon
+          ? (action.actionIcon as Icon).icon?.codePoint
+          : ((action.actionIcon as Image).image as AssetImage).assetName;
   }
 
   static List<ActionPanel> _defaultInitialList() =>

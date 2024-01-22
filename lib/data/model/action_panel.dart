@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class ActionPanel {
   String actionName;
-  Widget actionIcon;
+  Widget? actionIcon;
   String actionExecutor;
 
   ActionPanel(
