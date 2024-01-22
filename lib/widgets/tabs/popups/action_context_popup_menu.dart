@@ -35,13 +35,13 @@ class ActionPanelPopupMenu extends StatelessWidget {
                       Text(
                         'Edit',
                         style: TextStyle(
-                            color: Colors.grey.shade500, fontSize: 22),
+                            color: Colors.grey.shade300, fontSize: 22),
                       ),
                     ],
                   )),
             ),
             Divider(
-              color: Colors.grey.shade500,
+              color: Colors.grey.shade300,
               height: 1,
             ),
             InkWell(
@@ -58,7 +58,7 @@ class ActionPanelPopupMenu extends StatelessWidget {
                     Text(
                       'Delete',
                       style:
-                          TextStyle(color: Colors.grey.shade500, fontSize: 22),
+                          TextStyle(color: Colors.grey.shade300, fontSize: 22),
                       textAlign: TextAlign.center,
                     )
                   ],

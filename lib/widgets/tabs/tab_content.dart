@@ -87,7 +87,7 @@ class _TabContentState extends State<TabContent> {
                       onTap: () {
                         if (widget.actions.indexOf(action) !=
                             widget.actions.length - 1) {
-                          SseClient.callAction(action.actionExecutor);
+                          SseClient.callAction(action.actionExecutor, context);
                         } else {
                           showActionFormPopup(null);
                         }
@@ -106,27 +106,32 @@ class _TabContentState extends State<TabContent> {
                         child: ListView(
                           physics: const NeverScrollableScrollPhysics(),
                           children: [
-                            InkWell(
-                              onTap: () {
-                                showActionPanelPopupMenu(action);
-                              },
-                              child: Align(
-                                alignment: Alignment.centerRight,
-                                child: Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(0, 10, 10, 0),
-                                  child: Icon(
-                                    Icons.more_vert,
-                                    color: Colors.grey.shade300,
+                            widget.actions.indexOf(action) !=
+                                    widget.actions.length - 1
+                                ? InkWell(
+                                    onTap: () {
+                                      showActionPanelPopupMenu(action);
+                                    },
+                                    child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            0, 10, 10, 0),
+                                        child: Icon(
+                                          Icons.more_vert,
+                                          color: Colors.grey.shade300,
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                : Container(
+                                    height: 30,
                                   ),
-                                ),
-                              ),
-                            ),
                             Container(
                               child: action.actionIcon,
                             ),
                             Padding(
-                              padding: const EdgeInsets.fromLTRB(0,15,0,0),
+                              padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
                               child: Center(
                                   child: Text(
                                 action.actionName,

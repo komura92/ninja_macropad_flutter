@@ -32,7 +32,7 @@ There's a shortly described list:
 - ~~dynamic configuration for connection data [MP-AM-F-02]~~,
 - ~~dynamic configuration for panels content [MP-AM-F-03]~~,
 - dynamic configuration for menu options [MP-AM-F-04],
-- dropdown for choosing which device to control [MP-AM-F-05],
+- ~~dropdown for choosing which device to control [MP-AM-F-05]~~,
 - ~~menu entry for graphic panel (OBS etc.) [MP-AM-F-06] (canceled)~~,
 - ~~migration to flutter [MP-AM-F-07]~~,
 - ~~drag and drop to reorganize tab content [MP-AM-F-08]~~,
