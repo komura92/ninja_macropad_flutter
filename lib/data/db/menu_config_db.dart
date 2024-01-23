@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_ninja_macropad/data/model/action_panel.dart';
@@ -11,7 +14,7 @@ class MenuConfigDB {
   static final _defaultActionPanel = ActionPanel(
       actionName: 'Add',
       actionIcon: Icon(
-        Icons.add,
+        CupertinoIcons.add_circled,
         size: 80,
         color: Colors.grey.shade500,
       ),
@@ -74,12 +77,13 @@ class MenuConfigDB {
     return action['actionIconType'] == 'ICON'
             ? Icon(
                 IconData(action['actionIcon'] as int,
-                    fontFamily: 'MaterialIcons'),
+                    fontFamily: 'CupertinoIcons',
+                fontPackage: 'cupertino_icons'),
                 size: 80,
                 color: Colors.grey.shade500,
               )
-            : Image.asset(
-                action['actionIcon'] as String,
+            : Image.file(
+                File(action['actionIcon'] as String),
                 height: 80,
               );
   }
@@ -104,7 +108,7 @@ class MenuConfigDB {
     }
     return action.actionIcon is Icon
           ? (action.actionIcon as Icon).icon?.codePoint
-          : ((action.actionIcon as Image).image as AssetImage).assetName;
+          : ((action.actionIcon as Image).image as FileImage).file.path;
   }
 
   static List<ActionPanel> _defaultInitialList() =>
