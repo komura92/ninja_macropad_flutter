@@ -23,6 +23,14 @@ class SseClient {
   }
 
   static Future<List<String>> getAvailableDevices(BuildContext context) async {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        });
     if (ServerDB.getDevicesUrl() == null) {
       _missingConfigError(context);
       return Future.value([]);
@@ -36,6 +44,8 @@ class SseClient {
       return Future.value(list);
     } catch (e) {
       return Future.value([]);
+    } finally {
+      Navigator.of(context).pop();
     }
   }
 

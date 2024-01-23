@@ -139,7 +139,6 @@ class _ActionFormDialogState extends State<ActionFormDialog> {
                   style: TextStyle(color: Colors.grey.shade300),
                   onChanged: (String? value) {
                     setState(() {
-                      print(value);
                       logoMode = value;
                     });
                   },
