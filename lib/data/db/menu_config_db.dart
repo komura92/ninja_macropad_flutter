@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ninja_macropad/data/db/menu_actions_db.dart';
 import 'package:flutter_ninja_macropad/data/mapper/menu_config_mapper.dart';
 import 'package:hive/hive.dart';
 
 import '../model/menu_config.dart';
 
-// todo | UI for menu options configuration (delete left)
-// todo | on removing menu option from DB also remember to delete it's actions
 class MenuConfigDB {
   static const String _menuConfigBoxName = 'menu_config';
   static final _menuConfigBox = Hive.box(_menuConfigBoxName);
@@ -13,10 +12,17 @@ class MenuConfigDB {
   static final List<MenuConfig> _menuConfigCache = [];
 
   static void saveMenuConfig(List<MenuConfig> menuConfig) {
+    List<MenuConfig> deletedItems = _menuConfigCache
+        .where((element) => !menuConfig.contains(element))
+        .toList();
+
+    for (var configToDelete in deletedItems) {
+      MenuActionsDB.deleteActions(configToDelete.menuIdentifier!);
+    }
+
     _menuConfigBox.put(
         _menuConfigBoxName, MenuConfigMapper.getAsListOfMaps(menuConfig));
 
-    // todo check deleted and remove unnecessary actions config
     _updateCache(menuConfig);
   }
 
@@ -57,7 +63,7 @@ class MenuConfigDB {
       MenuConfig(
           menuLabel: 'Desktop',
           menuIdentifier: 'DESKTOP',
-          menuIcon: Icons.desktop_windows),
+          menuIcon: Icons.desktop_windows_rounded),
       MenuConfig(
           menuLabel: null,
           menuIdentifier: "ADD_MENU_ITEM",

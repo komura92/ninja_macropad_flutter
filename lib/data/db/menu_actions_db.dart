@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +9,8 @@ import '../mapper/action_mapper.dart';
 class MenuActionsDB {
   static final _menuConfigActionsBox = Hive.box('menu_config_actions');
 
-  static final Map<String, List<ActionPanel>> _actionsByMenuIdentifiersCache = {};
+  static final Map<String, List<ActionPanel>> _actionsByMenuIdentifiersCache =
+      {};
 
   static final _defaultActionPanel = ActionPanel(
       actionName: 'Add',
@@ -23,9 +23,11 @@ class MenuActionsDB {
 
   static void saveActionsForMenuIdentifier(
       String menuConfigIdentifier, List<ActionPanel> actions) {
-    _menuConfigActionsBox.put(menuConfigIdentifier, ActionMapper.getAsListOfMaps(actions));
+    _menuConfigActionsBox.put(
+        menuConfigIdentifier, ActionMapper.getAsListOfMaps(actions));
 
-    _actionsByMenuIdentifiersCache.update(menuConfigIdentifier, (value) => actions,
+    _actionsByMenuIdentifiersCache.update(
+        menuConfigIdentifier, (value) => actions,
         ifAbsent: () => actions);
   }
 
@@ -63,4 +65,9 @@ class MenuActionsDB {
 
   static List<ActionPanel> _defaultInitialList() =>
       List.of([_defaultActionPanel]);
+
+  static void deleteActions(String menuIdentifier) {
+    _actionsByMenuIdentifiersCache.remove(menuIdentifier);
+    _menuConfigActionsBox.delete(menuIdentifier);
+  }
 }

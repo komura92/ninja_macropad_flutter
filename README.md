@@ -28,7 +28,7 @@ In the future, I want to add some additional features to this project. There's a
 - changing active workspace on PC triggers changing active menu option in mobile app [MP-AM-F-01],
 - ~~dynamic configuration for connection data [MP-AM-F-02]~~,
 - ~~dynamic configuration for panels content [MP-AM-F-03]~~,
-- dynamic configuration for menu options [MP-AM-F-04],
+- ~~dynamic configuration for menu options [MP-AM-F-04]~~,
 - ~~dropdown for choosing which device to control [MP-AM-F-05]~~,
 - ~~menu entry for graphic panel (OBS etc.) [MP-AM-F-06] (canceled)~~,
 - ~~migration to flutter [MP-AM-F-07]~~,

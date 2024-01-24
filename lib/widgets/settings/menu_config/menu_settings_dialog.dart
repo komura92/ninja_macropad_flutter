@@ -1,7 +1,9 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 import 'package:flutter_ninja_macropad/widgets/settings/dialog_button.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 import '../../../data/model/menu_config.dart';
 
@@ -37,6 +39,8 @@ class _MenuSettingsDialogState extends State<MenuSettingsDialog> {
     return Drawer(
         backgroundColor: Colors.black87,
         child: SingleChildScrollView(
+          padding:
+              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
           child: Column(
             children: [
               Padding(
@@ -65,25 +69,46 @@ class _MenuSettingsDialogState extends State<MenuSettingsDialog> {
                           text: widget.menuItems[index].menuIdentifier));
                       _icons.add(widget.menuItems[index].menuIcon);
                       return Padding(
-                        key: ValueKey(widget.menuItems[index].menuIdentifier),
-                        padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.grey.shade900,
-                              boxShadow: const [
-                                BoxShadow(
-                                    color: Colors.black,
-                                    spreadRadius: 1,
-                                    blurRadius: 7)
-                              ],
-                              borderRadius: BorderRadius.circular(36)),
-                          child: Column(
-                            children: index != widget.menuItems.length - 1
-                                ? getContentForMenuItem(index)
-                                : getItemsForAddButton(index),
-                          ),
-                        ),
-                      );
+                          key: ValueKey(widget.menuItems[index].menuIdentifier),
+                          padding: const EdgeInsets.fromLTRB(15, 15, 15, 0),
+                          child: Slidable(
+                            endActionPane: index != widget.menuItems.length - 1
+                                ? ActionPane(
+                                    motion: const StretchMotion(),
+                                    children: [
+                                      SlidableAction(
+                                        onPressed: (context) {
+                                          setState(() {
+                                            propagateRemoveMenuConfig(index);
+                                          });
+                                        },
+                                        icon: Icons.delete,
+                                        foregroundColor: Colors.grey.shade300,
+                                        backgroundColor: Colors.red.shade500,
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(36)),
+                                      )
+                                    ],
+                                  )
+                                : null,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.grey.shade900,
+                                  boxShadow: const [
+                                    BoxShadow(
+                                        color: Colors.black,
+                                        spreadRadius: 1,
+                                        blurRadius: 7)
+                                  ],
+                                  borderRadius: BorderRadius.circular(36)),
+                              width: MediaQuery.of(context).size.width,
+                              child: Column(
+                                children: index != widget.menuItems.length - 1
+                                    ? getContentForMenuItem(index)
+                                    : getItemsForAddButton(index),
+                              ),
+                            ),
+                          ));
                     },
                     itemCount: widget.menuItems.length,
                     onReorder: reorderMenuConfigListAndPropagate,
@@ -107,13 +132,17 @@ class _MenuSettingsDialogState extends State<MenuSettingsDialog> {
         ));
   }
 
-  MenuConfig propagateRemoveMenuConfig(int oldIndex) {
-    return widget.menuItems.removeAt(oldIndex);
+  void propagateRemoveMenuConfig(int oldIndex) {
+    widget.menuItems.removeAt(oldIndex);
+    _menuLabelControllers.removeAt(oldIndex);
+    _menuIdentifierControllers.removeAt(oldIndex);
+    _icons.removeAt(oldIndex);
   }
 
   List<Widget> getItemsForAddButton(int index) {
     return [
       Ink(
+        width: MediaQuery.of(context).size.width,
         child: InkWell(
           onTap: () {
             setState(() {
@@ -142,8 +171,14 @@ class _MenuSettingsDialogState extends State<MenuSettingsDialog> {
   void appendNewMenuConfig(int index) {
     IconData newIconDefault = Icons.question_mark;
     MenuConfig config = MenuConfig(
-        menuLabel: null, menuIdentifier: null, menuIcon: newIconDefault);
+        menuLabel: null, menuIdentifier: generateRandomString(10), menuIcon: newIconDefault);
     propagateMenuConfigInsert(index, config);
+  }
+
+  String generateRandomString(int len) {
+    var r = Random();
+    const chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+    return List.generate(len, (index) => chars[r.nextInt(chars.length)]).join();
   }
 
   void propagateMenuConfigInsert(int index, MenuConfig config) {
