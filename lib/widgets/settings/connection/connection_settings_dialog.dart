@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ninja_macropad/widgets/settings/dialog_button.dart';
 
-class SettingsDialog extends StatefulWidget {
+class ConnectionSettingsDialog extends StatefulWidget {
   final TextEditingController serverUrlController;
   final TextEditingController selectedDeviceController;
   VoidCallback onSave;
@@ -9,7 +9,7 @@ class SettingsDialog extends StatefulWidget {
   String? deviceValue;
   final List<String> availableDevices;
 
-  SettingsDialog({
+  ConnectionSettingsDialog({
     super.key,
     required this.serverUrlController,
     required this.selectedDeviceController,
@@ -21,10 +21,10 @@ class SettingsDialog extends StatefulWidget {
             : selectedDeviceController.text;
 
   @override
-  State<SettingsDialog> createState() => _SettingsDialogState();
+  State<ConnectionSettingsDialog> createState() => _ConnectionSettingsDialogState();
 }
 
-class _SettingsDialogState extends State<SettingsDialog> {
+class _ConnectionSettingsDialogState extends State<ConnectionSettingsDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(

@@ -23,19 +23,19 @@ class SseClient {
   }
 
   static Future<List<String>> getAvailableDevices(BuildContext context) async {
-    showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (context) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        });
-    if (ServerDB.getDevicesUrl() == null) {
-      _missingConfigError(context);
-      return Future.value([]);
-    }
     try {
+      showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (context) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          });
+      if (ServerDB.getDevicesUrl() == null) {
+        _missingConfigError(context);
+        return Future.value([]);
+      }
       final response = await http
           .get(Uri.parse(ServerDB.getDevicesUrl()!))
           .timeout(const Duration(seconds: 5));
@@ -51,7 +51,7 @@ class SseClient {
 
   static void _missingConfigError(BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      content: Text("Set server URL and device ID to perform actions"),
+      content: Text("Set server URL and device ID in connection settings to perform actions"),
     ));
   }
 }

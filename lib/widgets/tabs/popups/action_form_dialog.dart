@@ -52,12 +52,14 @@ class _ActionFormDialogState extends State<ActionFormDialog> {
     } else if (logoMode == null && widget.initialAction?.actionIcon is Image) {
       logoMode = MODES[0];
     }
-    
+
     _icon ??= widget.initialAction?.actionIcon is Icon
         ? (widget.initialAction?.actionIcon as Icon).icon
         : null;
     _selectedImage ??= widget.initialAction?.actionIcon is Image
-        ? ((widget.initialAction?.actionIcon as Image).image as FileImage).file.path
+        ? ((widget.initialAction?.actionIcon as Image).image as FileImage)
+            .file
+            .path
         : null;
     var actionName = widget.initialAction?.actionName;
     if (actionName != null && actionNameController.text.isEmpty) {
@@ -171,50 +173,52 @@ class _ActionFormDialogState extends State<ActionFormDialog> {
   Ink getPickerForSelectedOption() {
     return logoMode == MODES[0]
         ? Ink(
-      child: InkWell(
-        onTap: () {
-          _pickImageFromGallery().then((imagePath) {
-            if (imagePath != null) {
-              setState(() {
-                this._selectedImage = imagePath;
-              });
-            }
-          });
-        },
-        child: Container(
-          padding: const EdgeInsets.all(10.0),
-          decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey.shade600)),
-          child: _selectedImage != null
-              ? getImageByPath(_selectedImage!)
-              : Text(
-            'No image selected',
-            style: TextStyle(color: Colors.grey.shade300),
-          ),
-        ),
-      ),
-    )
-        : Ink(
-      child: InkWell(
-        onTap: () {
-          _openIconPicker();
-        },
-        child: Container(
-          padding: const EdgeInsets.all(10.0),
-          decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey.shade600)),
-          child: _icon != null
-              ? Icon(
-            _icon,
-            color: Colors.grey.shade500,
+            child: InkWell(
+              onTap: () {
+                _pickImageFromGallery().then((imagePath) {
+                  if (imagePath != null) {
+                    setState(() {
+                      this._selectedImage = imagePath;
+                    });
+                  }
+                });
+              },
+              child: Container(
+                padding: const EdgeInsets.all(10.0),
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey.shade600),
+                    borderRadius: BorderRadius.all(Radius.circular(12))),
+                child: _selectedImage != null
+                    ? getImageByPath(_selectedImage!)
+                    : Text(
+                        'No image selected',
+                        style: TextStyle(color: Colors.grey.shade300),
+                      ),
+              ),
+            ),
           )
-              : Text(
-            'No icon selected',
-            style: TextStyle(color: Colors.grey.shade300),
-          ),
-        ),
-      ),
-    );
+        : Ink(
+            child: InkWell(
+              onTap: () {
+                _openIconPicker();
+              },
+              child: Container(
+                padding: const EdgeInsets.all(10.0),
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey.shade600),
+                    borderRadius: BorderRadius.all(Radius.circular(12))),
+                child: _icon != null
+                    ? Icon(
+                        _icon,
+                        color: Colors.grey.shade500,
+                      )
+                    : Text(
+                        'No icon selected',
+                        style: TextStyle(color: Colors.grey.shade300),
+                      ),
+              ),
+            ),
+          );
   }
 
   Image getImageByPath(String _selectedImage) {
@@ -271,7 +275,10 @@ class _ActionFormDialogState extends State<ActionFormDialog> {
     }
 
     if (logoMode == MODES[0] && _selectedImage != null) {
-      return Image.file(File(_selectedImage!), height: 80,);
+      return Image.file(
+        File(_selectedImage!),
+        height: 80,
+      );
     }
 
     return null;

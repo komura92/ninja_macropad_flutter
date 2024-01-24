@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
-import 'package:flutter_ninja_macropad/config/config.dart';
+import 'package:flutter_ninja_macropad/data/db/menu_config_db.dart';
 
 class BottomMenuWidget extends StatelessWidget {
   final void Function(dynamic index) onTabChange;
@@ -11,9 +11,9 @@ class BottomMenuWidget extends StatelessWidget {
     required this.onTabChange,
   });
 
-  static List<GButton> menuButtons = Config.getMenuConfig().map((menuConfig) => GButton(
+  static List<GButton> menuButtons = MenuConfigDB.getMenuConfig().sublist(0, MenuConfigDB.getMenuConfig().length - 1).map((menuConfig) => GButton(
     icon: menuConfig.menuIcon,
-    text: menuConfig.menuLabel,
+    text: menuConfig.menuLabel!,
   )).toList();
 
   @override

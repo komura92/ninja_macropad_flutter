@@ -24,10 +24,7 @@ Don't forget to set your server address in
 
 ## Roadmap
 
-In the future, I want to add some additional features to this project. It will be probably about
-two things per year, depending on my time availability.
-
-There's a shortly described list:
+In the future, I want to add some additional features to this project. There's a shortly described list:
 - changing active workspace on PC triggers changing active menu option in mobile app [MP-AM-F-01],
 - ~~dynamic configuration for connection data [MP-AM-F-02]~~,
 - ~~dynamic configuration for panels content [MP-AM-F-03]~~,

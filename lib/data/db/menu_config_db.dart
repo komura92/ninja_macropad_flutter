@@ -1,116 +1,67 @@
-import 'dart:io';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_ninja_macropad/data/mapper/menu_config_mapper.dart';
+import 'package:hive/hive.dart';
 
-import 'package:flutter_ninja_macropad/data/model/action_panel.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import '../model/menu_config.dart';
 
+// todo | UI for menu options configuration (delete left)
+// todo | on removing menu option from DB also remember to delete it's actions
 class MenuConfigDB {
-  static final _myBox = Hive.box('menu_config_actions');
+  static const String _menuConfigBoxName = 'menu_config';
+  static final _menuConfigBox = Hive.box(_menuConfigBoxName);
 
-  static final Map<String, List<ActionPanel>> _actionsByMenuIdentifiers = {};
+  static final List<MenuConfig> _menuConfigCache = [];
 
-  static final _defaultActionPanel = ActionPanel(
-      actionName: 'Add',
-      actionIcon: Icon(
-        CupertinoIcons.add_circled,
-        size: 80,
-        color: Colors.grey.shade500,
-      ),
-      actionExecutor: '');
+  static void saveMenuConfig(List<MenuConfig> menuConfig) {
+    _menuConfigBox.put(
+        _menuConfigBoxName, MenuConfigMapper.getAsListOfMaps(menuConfig));
 
-  static void saveActionsForMenuOption(
-      String menuOption, List<ActionPanel> actions) {
-    _myBox.put(menuOption, _getAsListOfMaps(actions));
-
-    _actionsByMenuIdentifiers.update(menuOption, (value) => actions,
-        ifAbsent: () => actions);
+    // todo check deleted and remove unnecessary actions config
+    _updateCache(menuConfig);
   }
 
-  static List<ActionPanel> getActionsForMenuOption(String menuOption) {
-    if (_isCacheLoaded(menuOption)) {
-      return _getFromCache(menuOption);
-    } else {
-      List<ActionPanel>? savedActions = _getActionsFromBoxDB(menuOption);
-      if (savedActions == null || savedActions.isEmpty) {
-        List<ActionPanel> initialList = _defaultInitialList();
-        _updateCache(menuOption, initialList);
-        return initialList;
-      }
-      _updateCache(menuOption, savedActions);
-      return savedActions;
+  static void _updateCache(List<MenuConfig> menuConfig) {
+    _menuConfigCache.clear();
+    _menuConfigCache.addAll(menuConfig);
+  }
+
+  static List<MenuConfig> getMenuConfig() {
+    if (_menuConfigCache.isNotEmpty) {
+      return List.of(_menuConfigCache);
     }
-  }
-
-  static List<ActionPanel> _getFromCache(String menuOption) =>
-      _actionsByMenuIdentifiers[menuOption]!;
-
-  static bool _isCacheLoaded(String menuOption) =>
-      _actionsByMenuIdentifiers.containsKey(menuOption);
-
-  static List<ActionPanel> _updateCache(
-      String menuOption, List<ActionPanel> actions) {
-    return _actionsByMenuIdentifiers.update(menuOption, (value) => actions,
-        ifAbsent: () => actions);
-  }
-
-  static List<ActionPanel>? _getActionsFromBoxDB(String menuOption) {
-    List? savedActions = _myBox.get(menuOption);
-    if (savedActions == null) {
-      return null;
+    List<MenuConfig>? savedMenuConfig = _getMenuConfigFromBoxDB();
+    if (savedMenuConfig == null || savedMenuConfig.isEmpty) {
+      List<MenuConfig> initialList = _getDefaultMenuConfig();
+      _updateCache(initialList);
+      return initialList;
     }
-    List<ActionPanel> actions = List.of([]);
-    for (var action in savedActions) {
-      actions.add(ActionPanel(
-          actionName: action['actionName'] as String,
-          actionIcon: getIconForAction(action),
-          actionExecutor: action['actionExecutor'] as String));
-    }
-    return actions;
+    _updateCache(savedMenuConfig);
+    return savedMenuConfig;
   }
 
-  static Widget? getIconForAction(action) {
-    if (action['actionIcon'] == null) {
-      return null;
-    }
-    return action['actionIconType'] == 'ICON'
-            ? Icon(
-                IconData(action['actionIcon'] as int,
-                    fontFamily: 'CupertinoIcons',
-                fontPackage: 'cupertino_icons'),
-                size: 80,
-                color: Colors.grey.shade500,
-              )
-            : Image.file(
-                File(action['actionIcon'] as String),
-                height: 80,
-              );
+  static List<MenuConfig>? _getMenuConfigFromBoxDB() {
+    List? menuConfigs = _menuConfigBox.get(_menuConfigBoxName);
+    return MenuConfigMapper.toMenuConfigs(menuConfigs);
   }
 
-  static List<Map<String, dynamic>> _getAsListOfMaps(
-      List<ActionPanel> actions) {
-    List<Map<String, dynamic>> mapped = List.of([]);
-    for (var action in actions) {
-      mapped.add({
-        'actionName': action.actionName,
-        'actionIconType': action.actionIcon is Icon ? 'ICON' : 'IMAGE',
-        'actionIcon': getActionIconForSave(action),
-        'actionExecutor': action.actionExecutor
-      });
-    }
-    return mapped;
+  static List<MenuConfig> _getDefaultMenuConfig() {
+    return List.of([
+      MenuConfig(
+          menuLabel: 'Programming',
+          menuIdentifier: 'PROGRAMMING',
+          menuIcon: Icons.developer_mode),
+      MenuConfig(
+          menuLabel: 'Gaming',
+          menuIdentifier: 'GAMING',
+          menuIcon: Icons.sports_esports),
+      MenuConfig(
+          menuLabel: 'Desktop',
+          menuIdentifier: 'DESKTOP',
+          menuIcon: Icons.desktop_windows),
+      MenuConfig(
+          menuLabel: null,
+          menuIdentifier: "ADD_MENU_ITEM",
+          menuIcon: Icons.add_circle_outline_rounded)
+    ]);
   }
-
-  static Object? getActionIconForSave(ActionPanel action) {
-    if (action.actionIcon == null) {
-      return null;
-    }
-    return action.actionIcon is Icon
-          ? (action.actionIcon as Icon).icon?.codePoint
-          : ((action.actionIcon as Image).image as FileImage).file.path;
-  }
-
-  static List<ActionPanel> _defaultInitialList() =>
-      List.of([_defaultActionPanel]);
 }

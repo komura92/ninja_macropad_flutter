@@ -41,7 +41,7 @@ class ServerDB {
     _serverUrl = newUrl;
   }
 
-  static void updateDeviceName(String? newDeviceName) {
+  static void updateTargetDeviceName(String? newDeviceName) {
     _myBox.put(DEVICE_NAME_BUCKET_NAME, newDeviceName);
     _selectedDevice = newDeviceName;
   }

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ninja_macropad/data/db/server_db.dart';
+import 'package:flutter_ninja_macropad/data/model/menu_config.dart';
 
 import 'package:flutter_ninja_macropad/widgets/menu/bottom_menu.dart';
+import 'package:flutter_ninja_macropad/widgets/settings/menu_config/menu_settings_dialog.dart';
+import 'package:flutter_ninja_macropad/widgets/settings/menu_config/settings_context_popup_menu.dart';
 import 'package:flutter_ninja_macropad/widgets/tabs/tab_content.dart';
-import 'package:flutter_ninja_macropad/widgets/settings/settings_dialog.dart';
+import 'package:flutter_ninja_macropad/widgets/settings/connection/connection_settings_dialog.dart';
 
-import '../config/config.dart';
+import '../data/db/menu_config_db.dart';
 import '../data/client/sse_client.dart';
 
 class HomePage extends StatefulWidget {
@@ -33,24 +36,25 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       bottomNavigationBar: BottomMenuWidget(onTabChange: updateSelectedIndex),
       body: TabContent.fromMenuIdentifier(
-          menuIdentifier: Config.getMenuConfig()[selectedIndex].menuIdentifier),
+          menuIdentifier:
+              MenuConfigDB.getMenuConfig()[selectedIndex].menuIdentifier!),
       floatingActionButton: FloatingActionButton(
-        onPressed: showSettingsPopup,
+        onPressed: showSettingsContextMenuPopup,
         backgroundColor: Colors.blue,
         child: const Icon(Icons.settings, color: Colors.black),
       ),
     );
   }
 
-  void showSettingsPopup() {
+  void showConnectionSettingsPopup() {
     SseClient.getAvailableDevices(context).then((availableDevices) {
       showDialog(
         context: context,
         builder: (context) {
-          return SettingsDialog(
+          return ConnectionSettingsDialog(
             serverUrlController: _serverUrlController,
             selectedDeviceController: _selectedDeviceController,
-            onSave: updateAppSettings,
+            onSave: updateConnectionSettings,
             onCancel: () {
               Navigator.of(context).pop();
               _serverUrlController.text = ServerDB.getServerUrl() != null
@@ -64,9 +68,41 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  void updateAppSettings() {
-    ServerDB.updateDeviceName(_selectedDeviceController.text);
+  void showSettingsContextMenuPopup() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return MenuSettingsPanelPopupMenu(
+          showConnectionSettingsPopup: showConnectionSettingsPopup,
+          showMenuConfigOverlay: showMenuSettingsPopup,
+        );
+      },
+    );
+  }
+
+  void showMenuSettingsPopup() {
+    showGeneralDialog(
+      context: context,
+      barrierColor: Colors.black12.withOpacity(0.6),
+      barrierDismissible: false,
+      barrierLabel: 'Dialog',
+      transitionDuration: const Duration(milliseconds: 200),
+      pageBuilder: (context, __, ___) {
+        return MenuSettingsDialog(
+          onSave: updateMenuSettings,
+          menuItems: MenuConfigDB.getMenuConfig(),
+        );
+      },
+    );
+  }
+
+  void updateConnectionSettings() {
+    ServerDB.updateTargetDeviceName(_selectedDeviceController.text);
     ServerDB.updateSubscriptionUrl(_serverUrlController.text);
     Navigator.of(context).pop();
+  }
+
+  void updateMenuSettings(List<MenuConfig> menuItems) {
+    MenuConfigDB.saveMenuConfig(menuItems);
   }
 }

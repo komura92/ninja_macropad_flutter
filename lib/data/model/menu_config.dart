@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class MenuConfig {
-  final String menuLabel;
-  final String menuIdentifier;
-  final IconData menuIcon;
+  String? menuLabel;
+  String? menuIdentifier;
+  IconData menuIcon;
 
   MenuConfig({
     required this.menuLabel,
