@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ninja_macropad/data/client/sse_client.dart';
 
 import 'package:flutter_ninja_macropad/widgets/home_page.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -8,6 +9,7 @@ void main() async {
   await Hive.openBox('app_settings');
   await Hive.openBox('menu_config_actions');
   await Hive.openBox('menu_config');
+  SseClient.subscribe();
   runApp(const MyApp());
 }
 

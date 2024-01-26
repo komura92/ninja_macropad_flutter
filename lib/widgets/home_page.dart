@@ -25,7 +25,7 @@ class _HomePageState extends State<HomePage> {
   final _selectedDeviceController =
       TextEditingController(text: ServerDB.getSelectedDevice());
 
-  void updateSelectedIndex(dynamic index) {
+  void updateSelectedIndex(int index) {
     setState(() {
       selectedIndex = index;
     });
