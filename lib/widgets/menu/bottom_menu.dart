@@ -35,6 +35,7 @@ class _BottomMenuWidgetState extends State<BottomMenuWidget> {
   void updateSelectedIndex(int index) {
     setState(() {
       selectedIndex = index;
+      widget.onTabChange(index);
     });
   }
 
