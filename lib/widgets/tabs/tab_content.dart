@@ -135,7 +135,7 @@ class _TabContentState extends State<TabContent> {
           itemCount: widget.actions.length,
           onReorder: (int oldIndex, int newIndex) {
             if ((oldIndex != widget.actions.length - 1) &&
-                (newIndex != widget.actions.length)) {
+                (newIndex != widget.actions.length - 1)) {
               setState(() {
                 ActionPanel movingPanel = widget.actions.removeAt(oldIndex);
                 widget.actions.insert(newIndex, movingPanel);
