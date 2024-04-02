@@ -12,14 +12,38 @@ to increase productivity level with me.
 
 ## System showcase
 
-![Examples of automations](https://github.com/komura92/macropad-android-mobile/blob/master/images/macropad-mobile-gif.gif)
+![Examples of automations](https://github.com/komura92/projects-gallery/blob/master/macropad/gifs/macropad-flutter-showcase.gif)
+#
 
 ## Configuration
 
-If you want to make your own application functions you have to edit this code.
-Actually there is no automatic config in this project.
-Don't forget to set your server address in
-[sse_client.dart](lib/data/client/sse_client.dart).
+### Server connection configuration
+
+To pass notifications to your PC you need to provide SSE server URL 
+and select registered device (PC must be connected first) - illustrated below.
+
+![Server connection configuration](https://github.com/komura92/projects-gallery/blob/master/macropad/gifs/macropad-server-config.gif)
+
+### Menu options configuration
+
+To configure bottom menu options hit the settings floating button
+and configure whatever you want - check gif below.
+
+![Bottom menu configuration](https://github.com/komura92/projects-gallery/blob/master/macropad/gifs/macropad-bottom-menu-config.gif)
+
+Tab content menu configuration supports below changes (check gif):
+- tiles reorder in tab scope,
+- adding new tiles,
+- deleting existing tiles,
+- editing existing tiles.
+
+![Tab content menu configuration](https://github.com/komura92/projects-gallery/blob/master/macropad/gifs/macropad-tab-content-menu-config.gif)
+
+
+## Troubleshooting
+
+If you get any problem with app - restart it (also remove from cache) and try again.
+It can happen sometimes, especially in initial configuration step.
 
 
 ## Roadmap
@@ -34,4 +58,5 @@ In the future, I want to add some additional features to this project. There's a
 - ~~migration to flutter [MP-AM-F-07]~~,
 - ~~drag and drop to reorganize tab content [MP-AM-F-08]~~,
 - ~~image picker [MP-AM-F-09]~~,
-- ~~loading dialog for querying devices [MP-AM-F-10]~~.
+- ~~loading dialog for querying devices [MP-AM-F-10]~~,
+- bluetooth communication [MP-AM-F-11].
