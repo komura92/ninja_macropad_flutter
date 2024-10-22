@@ -48,6 +48,9 @@ class _HomePageState extends State<HomePage> {
 
   void showConnectionSettingsPopup() {
     SseClient.getAvailableDevices(context).then((availableDevices) {
+      if (!availableDevices.contains(_selectedDeviceController.text)) {
+        _selectedDeviceController.text = "";
+      }
       showDialog(
         context: context,
         builder: (context) {

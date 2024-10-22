@@ -46,7 +46,7 @@ class _ConnectionSettingsDialogState extends State<ConnectionSettingsDialog> {
                 isExpanded: true,
                 dropdownColor: Colors.grey.shade800,
                 hint: Text(
-                  'Device',
+                  'Device to control',
                   style: TextStyle(color: Colors.grey.shade300,
                     fontSize: 16,),
                 ),
